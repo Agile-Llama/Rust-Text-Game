@@ -1,0 +1,9 @@
+[package]
+name = "game"
+version = "0.1.0"
+authors = ["agile-llama <agilellama@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rand = "0.3"
+colored = "1.8"
