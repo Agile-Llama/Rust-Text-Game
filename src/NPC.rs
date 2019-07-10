@@ -101,7 +101,7 @@ impl Opponents for Guard{  //could have hard guards jailers etc...
 
     fn take_damage(&mut self, damage: i32){
         self.hitpoints = self.hitpoints - damage as i32;
-        println!("{} damage dealth to the {}",damage ,self.name);
+        println!("{} damage dealt to the {}",damage ,self.name);
         println!("{}'s Hitpoints {} \n",self.name,self.hitpoints);
     }
 }

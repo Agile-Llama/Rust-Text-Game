@@ -5,6 +5,7 @@ pub trait MeleeWeaponTraits{
     fn new_spear() -> Self;
     fn new_hand_axe() -> Self;
     fn new_longsword() -> Self;
+    fn unarmed() -> Self;
 }
 
 pub struct MeleeWeapon{
@@ -52,6 +53,18 @@ fn new_spear() -> Self{
         roll_max: 8,
         damage_type: String::from("Slashing"), 
         cost: 15,
+        }
+    }
+
+    fn unarmed() -> Self{
+        MeleeWeapon{
+        name: String::from("Unarmed"),
+        two_handed: true,
+        throwable: false,
+        dice_to_roll: 1,
+        roll_max: 4,
+        damage_type: String::from("N/A"), 
+        cost: 0,
         }
     }
 }

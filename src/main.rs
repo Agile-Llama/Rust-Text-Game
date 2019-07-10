@@ -70,6 +70,7 @@ impl Character{
 
     pub fn gain_xp(&mut self, xp_to_gain: i32){  //pass the defeated event/NPC, it will have an experince field.
         self.experince_points = self.experince_points + xp_to_gain;
+        println!("{} has gained {}xp",self.name, xp_to_gain);
         self.calculate_level(); //checks to see if a level has been gained.
     }
 
@@ -78,6 +79,57 @@ impl Character{
         println!("{} Damage was dealt to {}",damage_to_take, self.name);
         println!("{} Hitpoints {} \n",self.name, self.hitpoints);
     }
+}
+
+//rolls random number and returns a value of damage to deal.                    need to roll to hit. 
+fn roll_damage(max_roll: i32, dice_to_roll: i32) -> i32{
+    thread::sleep(time::Duration::from_millis(3000));  //slight pause in the combat
+    let mut damage_to_deal = 0;
+    let mut rng = rand::thread_rng();
+    for x in 0..dice_to_roll {
+        //so say the max_roll is 6 and the dice_to_roll is 2 this will roll a d6 2 times and add the damage then return it.
+        damage_to_deal = damage_to_deal +  rng.gen_range(1, max_roll);  //might need to be 1 - max_roll
+    }
+    return damage_to_deal;
+}
+
+//should be able to pass any type as long as it has the opponenet trait. ie Guard has the trait so it can be accepted.
+//combat function which simulates the fight between 2 characters? eg guard and player returns a victor. has combat choices etc..
+//This should be a extremly basic version. Designed just for the guard. Could have specific AI per opponenet.
+
+fn combat_sim<T: NPC::Opponents> (mut player: Character, mut opp: T){   //Player is mutable as damage will be taken.  Maybe things like spell slots
+    println!("<<STARTING FIGHT>>");
+    let mut rng = rand::thread_rng();
+    let opp_initiative = rng.gen_range(1, 20);
+    let player_initiative = rng.gen_range(1, 20);
+     //roll initiative, could also add a modifier here.
+
+while player.hitpoints > 0 || opp.get_hp() > 0 {  //obviously stop the loop if either HP is 0.
+    //implement Armour Class in the damage check.
+    //took away the initative check, come back with a better idea.
+
+            //player attacks first
+            let damage_to_deal = roll_damage(player.weapon.roll_max, player.weapon.dice_to_roll);
+            opp.take_damage(damage_to_deal);
+
+            if opp.get_hp() <= 0{
+                opp.say_name();    //fix this up. get the actual string.
+                print!(" has died\n");
+                player.gain_xp(opp.get_xp());
+                break;
+            }
+
+        //opp attacks first, need to get the rolls of the weapon the opp is using. 
+        //more advanced later if no weapon and spells. But this is just a basic melee attack.
+        let damage_to_deal = roll_damage(opp.get_weapon().roll_max, opp.get_weapon().dice_to_roll);
+        player.take_damage(damage_to_deal);
+
+        if player.hitpoints <= 0{
+            println!("{} {} ", player.name.bright_red(),"has died\n");
+            break;
+        }
+    
+  }
 }
 
 fn main() {
@@ -166,6 +218,7 @@ fn town_gate(player: Character){
                             //run away new scene.
                          }else if answer == 2{
                             //jail, new scene
+                            jail_scene(player);
                          }else{
                              let guard: NPC::Guard =<NPC::Guard as NPC::Opponents>::new_easy_guard();
                              combat_sim(player, guard);
@@ -191,55 +244,33 @@ fn town_gate(player: Character){
     }
 
 }
-//rolls random number and returns a value of damage to deal.                    need to roll to hit. 
-fn roll_damage(max_roll: i32, dice_to_roll: i32) -> i32{
-    thread::sleep(time::Duration::from_millis(3000));  //slight pause in the combat
-    let mut damage_to_deal = 0;
-    let mut rng = rand::thread_rng();
-    for x in 0..dice_to_roll {
-        //so say the max_roll is 6 and the dice_to_roll is 2 this will roll a d6 2 times and add the damage then return it.
-        damage_to_deal = damage_to_deal +  rng.gen_range(1, max_roll);  //might need to be 1 - max_roll
+
+//character moves from the front gate to the jail. No longer in the front gate function.
+fn jail_scene(mut player: Character){
+    let player_weapon_taken = player.weapon;  //player original weapon. taken away when entering jail.
+    //weapon of the player is removed when going to jail. have an option to get it back?
+     player.weapon = weapons::MeleeWeaponTraits::unarmed();
+
+     println!("The guard arrests you. He takes you through the town as you arrive to a large jail building he takes you in");
+     println!("You overhear him talking to the Jailers, as one comes out from behind a desk and takes you down to the cells.");
+     println!("The jailer goes to remove your weapons.\n");
+
+     println!("(1). Let him have the weapons.");
+     println!("(2). Give him some attitude, make it difficult for him to get your weapons.");
+     println!("(3). Offer him you're weapons willingly but attempt to headbutt him when he comes closer\n");
+
+    let answer = question_answer_function();
+
+    if answer == 1{
+        println!("The jailer takes your weapons, as you watch him leave he appears to put them in a room furthur back in the Jail.");
+        println!("He leads you into the jail and closes the cell behind you.");
+    }else if answer == 2{
+        println!("You inform the jailer that you have slept with his mother , as has the rest of the town.");
+        println!("He looks up at you and smiles, as he spits in your face. He then takes your weapons and takes them into a room furthur back in the Jail .");
+    }else{
+        println!("The jailer easily dodges the headbutt, he reminds you that you are in cuffs you fucking idiot.");
+        println!("He then punches you in the face, it knocks you out. When you wake up you're in the cell and your weapons are gone.");
     }
-    return damage_to_deal;
-}
-
-
-//should be able to pass any type as long as it has the opponenet trait. ie Guard has the trait so it can be accepted.
-//combat function which simulates the fight between 2 characters? eg guard and player returns a victor. has combat choices etc..
-//This should be a extremly basic version. Designed just for the guard. Could have specific AI per opponenet.
-
-fn combat_sim<T: NPC::Opponents> (mut player: Character, mut opp: T){   //Player is mutable as damage will be taken.  Maybe things like spell slots
-    println!("<<STARTING FIGHT>>");
-    let mut rng = rand::thread_rng();
-    let opp_initiative = rng.gen_range(1, 20);
-    let player_initiative = rng.gen_range(1, 20);
-     //roll initiative, could also add a modifier here.
-
-while player.hitpoints > 0 || opp.get_hp() > 0 {  //obviously stop the loop if either HP is 0.
-    //implement Armour Class in the damage check.
-    //took away the initative check, come back with a better idea.
-
-            //player attacks first
-            let damage_to_deal = roll_damage(player.weapon.roll_max, player.weapon.dice_to_roll);
-            opp.take_damage(damage_to_deal);
-
-            if opp.get_hp() <= 0{
-                opp.say_name();    //fix this up. get the actual string.
-                print!(" has died\n");
-                break;
-            }
-
-        //opp attacks first, need to get the rolls of the weapon the opp is using. 
-        //more advanced later if no weapon and spells. But this is just a basic melee attack.
-        let damage_to_deal = roll_damage(opp.get_weapon().roll_max, opp.get_weapon().dice_to_roll);
-        player.take_damage(damage_to_deal);
-
-        if player.hitpoints <= 0{
-            println!("{} {} ", player.name.bright_red(),"has died\n");
-            break;
-        }
-    
-  }
 }
 
 
