@@ -25,6 +25,7 @@ struct Character{
     intelligence: i32,
     wisdom: i32,
     charisma: i32,
+    max_hitpoints:i32,
     weapon: weapons::MeleeWeapon,
     //if lie could have an alias to use?
 }
@@ -46,6 +47,7 @@ impl Character{
             intelligence: 12,
             wisdom: 10,
             charisma: 8,
+            max_hitpoints: 15,  //will need to update this later. Used to restore health when resting.
             weapon:selected_weapon,
         }
     }
@@ -78,6 +80,11 @@ impl Character{
         self.hitpoints = self.hitpoints - damage_to_take as i32;
         println!("{} Damage was dealt to {}",damage_to_take, self.name);
         println!("{} Hitpoints {} \n",self.name, self.hitpoints);
+    }
+
+    pub fn restore_hitpoints(&mut self){
+        self.hitpoints = self.max_hitpoints;
+        println!("While resting you restore your hitpoints back to your max of {}", self.hitpoints);
     }
 }
 
@@ -246,8 +253,8 @@ fn town_gate(player: Character){
                          }
 
                     }else {
-                           println!("Ah perhaps you were right sorry about the miss understanding sir");  
-                           println!("The guard raises the gate and lets you into the town.\n");  
+                        println!("{} {}", "(Success)".green() ,"Ah perhaps you were right sorry about the miss understanding sir");
+                        println!("The guard raises the gate and lets you into the town.\n");  
                     }
 
                 }else if answer == 2{
@@ -351,18 +358,20 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
             }else if answer == 2{
                 println!("In your infinite wisdom you attempt to attack the random stranger");
                 println!("As the punch is about to land the man effortlessly grabs your arm to stop your strike.");
-                println!("He sighs deeply then looks at you, he shakes his head once again..
-                and this time you get the impression that perhaps you should not mess with this guy.\n");
+                println!("He sighs deeply then looks at you, he shakes his head once again..\nand this time you get the impression that perhaps you should not mess with this guy.\n");
+                
             }
         }
     //3 is threaten the jailers.
     }else if answer == 3{
         println!("You decide that you haven't had enough punishment for the day so you go up to the bars and start abusing the jailers");
         println!("After yelling all sorts of profanities at nobody, you seem quite satisfied, you go take a seat along the bench");
-        println!("As you sit to your right you notice a man with a rather intimidating aura next to you");
+        println!("As you sit to your right you notice a man with a rather intimidating aura next to you\n");
     }
      println!("Judging by the glow of the moon coming through the bars you think its approaching midnight");
      println!("Against your better judement you start to nod off where you are sitting...");
+     //sleeping restores hitpoints
+     player.restore_hitpoints();
 }
 
 
