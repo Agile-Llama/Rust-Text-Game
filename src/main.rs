@@ -127,7 +127,7 @@ while player.hitpoints > 0 || opp.get_hp() > 0 {  //obviously stop the loop if e
 
         //guarded defeated the player. First time just knock unconcious dont die for good.
         if player.hitpoints <= 0{
-            println!("{} {} ", player.name.bright_red(),"has died\n");
+            println!("{} {} ", player.name.bright_red(),"has passed out\n");
             break;
         }
   }
@@ -246,7 +246,8 @@ fn town_gate(player: Character){
                          }
 
                     }else {
-                           println!("Urgh another one fleeing, come on in then i'll set you up with someone who can help.");  
+                           println!("Ah perhaps you were right sorry about the miss understanding sir");  
+                           println!("The guard raises the gate and lets you into the town.\n");  
                     }
 
                 }else if answer == 2{
@@ -286,36 +287,82 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
 
     if answer == 1{
         println!("The jailer takes your weapons, as you watch him leave he appears to put them in a room furthur back in the Jail.");
-        println!("He comes back, removes your cuffs ,leads you into the jail and closes the cell door behind you.");
+        println!("He comes back, removes your cuffs ,leads you into the jail and closes the cell door behind you.\n");
     }else if answer == 2{
         println!("You inform the jailer that you have slept with his mother , as has the rest of the town.");
-        println!("He looks up at you and smiles, as he spits in your face. He then takes your weapons and takes them into a room furthur back in the Jail .");
-        println!("he takes your cuffs off and pushes you into the cell..");
+        println!("He looks up at you and smiles, as he spits in your face. He then takes your weapons and takes them into a room furthur back in the Jail.\n");
+        println!("He takes your cuffs off and pushes you into the cell..");
     }else if answer == 3{
         println!("The jailer easily dodges the headbutt, he reminds you that you are in cuffs you fucking idiot.");
-        println!("He then punches you in the face, knocking you out. When you wake up you're in the cell and your weapons are gone.");
+        println!("He then punches you in the face, knocking you out. When you wake up you're in the cell and your weapons are gone.\n");
     }else if answer == 0{
         println!("You wake up after who knows how long, the back of your head feels like its been split open");
-        println!("You attempt to rise, but only manage to sit on the cold floor of what appears to be a town jail");
+        println!("You attempt to rise, but only manage to sit on the cold floor of what appears to be a town jail\n");
     }
 
-    answer = question_answer_function(3);  
+    
     println!("You look around the dimly lit cell, it appears to be a group cell with 4 other people in it");
     println!("What do you want to do?");
     println!("(1). Explore the cell");
     println!("(2). Sit down on one of the benches and rest");
     println!("(3). Go up to the bar and threaten to jailers\n");
-
+    answer = question_answer_function(3);  
     // if exploring the cell what are you looking for?
 
+    //option 1 is explore
     if answer == 1{
-
+        println!("You start to look around the jail room.");
+        println!("You see a small barred window, which a mysterious man is sitting next to.");
+        println!("There are 4 other people in here, most of whom appear to be quite beaten up like they've been in some type of fight.");
+        println!("As you notice this you also notice that the mysterious man appears to be in perfect health.");
+        println!("You find nothign else of interest so you go sit down next to the man with the intention of resting for abit...\n");
+        //option 2 is sitting down
     }else if answer == 2{
+        println!("You go to sit down on the only avaiable spot on the bench");
+        println!("As you sit you notice that a man sitting to your right.");
+        println!("(1). Ignore him");
+        println!("(2). Ask him his name, whats hes in for.");
+        println!("(3). Tell him to stop fucking staring at you, even though he wasn't.");
+        answer = question_answer_function(3); 
 
+        //1 is ignore
+        if answer == 1{
+            println!("You sit down, barely able to keep your eyes open. Its been a long day..");
+        //2 is ask questions
+        }else if answer == 2{
+            println!("You look at the man, he appears to be a human. As you go to speak to him he looks at you and shakes his head.");
+            println!("He doesn't appear to be disintereted and gives you the impression that now isn't a great time, perhaps try again later.");
+        //3 is start shit with him.
+        }else if answer == 3{
+            if did_player_kill_guard{
+                println!("Even though you have just been in a fight and are still quite injuryed, you attempt to start shit with this random stranger...");
+                println!("You show him some attitude, although he smirks at you then shakes his head.");
+            }else{
+                println!("You show him some attitude, although he smirks at you then shakes his head.");
+            }
+            println!("You get the impression that this mysterious person isn't someone you can intimidate.\n");
+            println!("(1). Back down");
+            println!("(2). Attempt to hit him.");
+            answer = question_answer_function(2); 
+            //back down
+            if answer == 1{
+                println!("As you back down he nods, as if to say that was the wise choice.");
+                //attack him 
+            }else if answer == 2{
+                println!("In your infinite wisdom you attempt to attack the random stranger");
+                println!("As the punch is about to land the man effortlessly grabs your arm to stop your strike.");
+                println!("He sighs deeply then looks at you, he shakes his head once again..
+                and this time you get the impression that perhaps you should not mess with this guy.\n");
+            }
+        }
+    //3 is threaten the jailers.
     }else if answer == 3{
-
+        println!("You decide that you haven't had enough punishment for the day so you go up to the bars and start abusing the jailers");
+        println!("After yelling all sorts of profanities at nobody, you seem quite satisfied, you go take a seat along the bench");
+        println!("As you sit to your right you notice a man with a rather intimidating aura next to you");
     }
-
+     println!("Judging by the glow of the moon coming through the bars you think its approaching midnight");
+     println!("Against your better judement you start to nod off where you are sitting...");
 }
 
 
