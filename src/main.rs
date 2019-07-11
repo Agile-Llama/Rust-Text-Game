@@ -381,7 +381,8 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
 
 //option 2 from front gate, choose to run away
 fn run_away_scene(mut player:Character){
-
+    //need to loop around to the prision scene kinda.
+    println!("Hello World");
 }
 
 
