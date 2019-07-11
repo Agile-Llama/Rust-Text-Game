@@ -84,7 +84,9 @@ impl Character{
 
     pub fn restore_hitpoints(&mut self){
         self.hitpoints = self.max_hitpoints;
-        println!("While resting you restore your hitpoints back to your max of {}", self.hitpoints);
+        //println!("While resting you restore your hitpoints back to your max of {} ".green(), self.hitpoints);
+         println!("{}", "While resting you restore your hitpoints back to full: ".green().bold());
+         println!("Hitpoints {}/{}\n",self.hitpoints,self.max_hitpoints);
     }
 }
 
@@ -178,6 +180,7 @@ fn main() {
     }
 
     let mut player = Character::new_player_character(character_name, personal_weapon);
+    player.restore_hitpoints();
     player.print_values();
     //new character setup finished.
 
@@ -334,16 +337,16 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
 
         //1 is ignore
         if answer == 1{
-            println!("You sit down, barely able to keep your eyes open. Its been a long day..");
+            println!("You sit down, barely able to keep your eyes open. Its been a long day..\n");
         //2 is ask questions
         }else if answer == 2{
             println!("You look at the man, he appears to be a human. As you go to speak to him he looks at you and shakes his head.");
-            println!("He doesn't appear to be disintereted and gives you the impression that now isn't a great time, perhaps try again later.");
+            println!("He doesn't appear to be disintereted and gives you the impression that now isn't a great time, perhaps try again later.\n");
         //3 is start shit with him.
         }else if answer == 3{
             if did_player_kill_guard{
                 println!("Even though you have just been in a fight and are still quite injuryed, you attempt to start shit with this random stranger...");
-                println!("You show him some attitude, although he smirks at you then shakes his head.");
+                println!("You show him some attitude, although he smirks at you then shakes his head.\n");
             }else{
                 println!("You show him some attitude, although he smirks at you then shakes his head.");
             }
@@ -372,6 +375,13 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
      println!("Against your better judement you start to nod off where you are sitting...");
      //sleeping restores hitpoints
      player.restore_hitpoints();
+
+    //jail break?
+}
+
+//option 2 from front gate, choose to run away
+fn run_away_scene(mut player:Character){
+
 }
 
 
