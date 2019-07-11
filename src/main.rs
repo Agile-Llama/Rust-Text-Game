@@ -159,7 +159,7 @@ fn main() {
     println!("(1). Longsword");
     println!("(2). Hand Axe");
     println!("(3). Spear");
-    let mut answer = question_answer_function();
+    let mut answer = question_answer_function(3);
 
     let mut personal_weapon;
     if  answer == 1{
@@ -177,14 +177,20 @@ fn main() {
     //move the entire player object into the town gate function.
     town_gate(player);
 }
+//pass a number which says how many questions there are, eg 3 so if a number 4 is entered it asks again
 //easy to reuse code which returns a number from the terminal.
-fn question_answer_function()-> u64{
+fn question_answer_function(num_of_questions: u64)-> u64{
     let mut input = String::new();
     io::stdin()
         .read_line(&mut input)
         .expect("failed to read");
     //throw an error the user inputted text isn't a unsigned int.
     let number: u64 = input.trim().parse().expect("Expected a Number");
+
+    if number > num_of_questions || number <= 0{
+        println!("Please enter a number between 1-{}",num_of_questions);
+        question_answer_function(num_of_questions);
+    }
     return number;
 }
 
@@ -194,7 +200,7 @@ fn town_gate(player: Character){
     //lie would require higher skills.
     println!("(1). {} {}", "(Lie)".cyan() , "Hello my name is Hagar, im a traveling merchant looking to purchase goods from the town.");
     println!("(2). I have no idea where I am, but my name is {}.\n", player.name);
-    let mut answer = question_answer_function();
+    let mut answer = question_answer_function(2);
 
     //if option is lie can roll a random number for the guard and the player see who wins.
     if answer == 1{
@@ -210,7 +216,7 @@ fn town_gate(player: Character){
                 println!("(1). {} {}", "(Lie again)".cyan(), "I swear im a traveling merchant, I was robbed on the way..");
                 println!("(2). Sorry sir I was scared, Im not sure where I am my name is {}\n", player.name);
 
-                answer = question_answer_function();
+                answer = question_answer_function(2);
 
                 if answer == 1{
                     //roll against guard, this time with advantage as you've been caught once.
@@ -225,7 +231,7 @@ fn town_gate(player: Character){
                          println!("(1). Choose to run and hope nobody follows.");
                          println!("(2). Choose to submit to the guard, risking probable arrest.");
                          println!("(3). Fight the guard");
-                         answer = question_answer_function();
+                         answer = question_answer_function(3);
                          //from here we will be changing scenes so regardless we will be moving from this function.
 
                          if answer == 1{
@@ -275,7 +281,7 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
      println!("(2). Give him some attitude, make it difficult for him to get your weapons.");
      println!("(3). Offer him your weapons willingly but attempt to headbutt him when he comes closer\n");
 
-    answer = question_answer_function();
+    answer = question_answer_function(3);
     }
 
     if answer == 1{
@@ -293,7 +299,22 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
         println!("You attempt to rise, but only manage to sit on the cold floor of what appears to be a town jail");
     }
 
-    println!();
+    answer = question_answer_function(3);  
+    println!("You look around the dimly lit cell, it appears to be a group cell with 4 other people in it");
+    println!("What do you want to do?");
+    println!("(1). Explore the cell");
+    println!("(2). Sit down on one of the benches and rest");
+    println!("(3). Go up to the bar and threaten to jailers\n");
+
+    // if exploring the cell what are you looking for?
+
+    if answer == 1{
+
+    }else if answer == 2{
+
+    }else if answer == 3{
+
+    }
 
 }
 
