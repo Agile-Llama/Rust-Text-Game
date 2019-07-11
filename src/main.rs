@@ -112,6 +112,7 @@ while player.hitpoints > 0 || opp.get_hp() > 0 {  //obviously stop the loop if e
             let damage_to_deal = roll_damage(player.weapon.roll_max, player.weapon.dice_to_roll);
             opp.take_damage(damage_to_deal);
 
+            //player defated the guard
             if opp.get_hp() <= 0{
                 opp.say_name();    //fix this up. get the actual string.
                 print!(" has died\n");
@@ -124,12 +125,25 @@ while player.hitpoints > 0 || opp.get_hp() > 0 {  //obviously stop the loop if e
         let damage_to_deal = roll_damage(opp.get_weapon().roll_max, opp.get_weapon().dice_to_roll);
         player.take_damage(damage_to_deal);
 
+        //guarded defeated the player. First time just knock unconcious dont die for good.
         if player.hitpoints <= 0{
             println!("{} {} ", player.name.bright_red(),"has died\n");
             break;
         }
-    
   }
+
+    //player lost the fight wont die as its the first fight. But go to jail alternative.
+    if player.hitpoints <= 0{
+        //go to jail but unconcious so take a different jail scene.
+        jail_scene(player, false);
+    }else{
+
+    println!("As you walk over the body of the dead guard you see cluster of torches coming towards you");
+    println!("Before you know it you are surronded by guards, aswell as archers pointing their bows directly at you");
+    println!("As you go to speak one of the guards knocks you over the head and you black out..");
+    jail_scene(player, true);
+    //player won the fight more guards come and arresty the player.
+    }
 }
 
 fn main() {
@@ -217,8 +231,8 @@ fn town_gate(player: Character){
                          if answer == 1{
                             //run away new scene.
                          }else if answer == 2{
-                            //jail, new scene
-                            jail_scene(player);
+                            //jail, new scene didn't kill the guard.
+                            jail_scene(player, false);
                          }else{
                              let guard: NPC::Guard =<NPC::Guard as NPC::Opponents>::new_easy_guard();
                              combat_sim(player, guard);
@@ -226,7 +240,7 @@ fn town_gate(player: Character){
                          }
 
                     }else {
-                           println!("urgh another one fleeing, come on in then i'll set you up with someone who can help.");  
+                           println!("Urgh another one fleeing, come on in then i'll set you up with someone who can help.");  
                     }
 
                 }else if answer == 2{
@@ -245,32 +259,42 @@ fn town_gate(player: Character){
 
 }
 
-//character moves from the front gate to the jail. No longer in the front gate function.
-fn jail_scene(mut player: Character){
+//character moves from the front gate to the jail. This is the option taken when the player submits or kills the guard then gets arrested.
+fn jail_scene(mut player: Character, did_player_kill_guard: bool){
     let player_weapon_taken = player.weapon;  //player original weapon. taken away when entering jail.
     //weapon of the player is removed when going to jail. have an option to get it back?
      player.weapon = weapons::MeleeWeaponTraits::unarmed();
-
+     //0 will be the choice that means you killed the guard and were arrested.
+    let mut answer = 0;
+    if did_player_kill_guard == false{
      println!("The guard arrests you. He takes you through the town as you arrive to a large jail building he takes you in");
      println!("You overhear him talking to the Jailers, as one comes out from behind a desk and takes you down to the cells.");
      println!("The jailer goes to remove your weapons.\n");
 
      println!("(1). Let him have the weapons.");
      println!("(2). Give him some attitude, make it difficult for him to get your weapons.");
-     println!("(3). Offer him you're weapons willingly but attempt to headbutt him when he comes closer\n");
+     println!("(3). Offer him your weapons willingly but attempt to headbutt him when he comes closer\n");
 
-    let answer = question_answer_function();
+    answer = question_answer_function();
+    }
 
     if answer == 1{
         println!("The jailer takes your weapons, as you watch him leave he appears to put them in a room furthur back in the Jail.");
-        println!("He leads you into the jail and closes the cell behind you.");
+        println!("He comes back, removes your cuffs ,leads you into the jail and closes the cell door behind you.");
     }else if answer == 2{
         println!("You inform the jailer that you have slept with his mother , as has the rest of the town.");
         println!("He looks up at you and smiles, as he spits in your face. He then takes your weapons and takes them into a room furthur back in the Jail .");
-    }else{
+        println!("he takes your cuffs off and pushes you into the cell..");
+    }else if answer == 3{
         println!("The jailer easily dodges the headbutt, he reminds you that you are in cuffs you fucking idiot.");
-        println!("He then punches you in the face, it knocks you out. When you wake up you're in the cell and your weapons are gone.");
+        println!("He then punches you in the face, knocking you out. When you wake up you're in the cell and your weapons are gone.");
+    }else if answer == 0{
+        println!("You wake up after who knows how long, the back of your head feels like its been split open");
+        println!("You attempt to rise, but only manage to sit on the cold floor of what appears to be a town jail");
     }
+
+    println!();
+
 }
 
 
