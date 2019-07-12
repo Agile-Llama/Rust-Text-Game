@@ -28,6 +28,7 @@ struct Character{
     max_hitpoints:i32,
     weapon: weapons::MeleeWeapon,
     //if lie could have an alias to use?
+    //could have an inventory class, which holds gold, silver, copper. and items, like health pots, etc..
 }
 
 impl Character{
