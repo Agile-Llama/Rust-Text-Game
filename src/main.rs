@@ -8,7 +8,6 @@ pub mod weapons;
 
 extern crate rand;
 extern crate colored;
-
 //fail is red, sucess is green and Orange is an option could also have the option only appear if level required.
 //Player needs to select a starting weapon
 
@@ -26,7 +25,7 @@ struct Character{
     wisdom: i32,
     charisma: i32,
     max_hitpoints:i32,
-    weapon: weapons::MeleeWeapon,
+    weapon: weapons::MeleeWeapon,  //might have to have a trait above MeleeWeapon like 'Weapon' which meleeweapon extends
     //if lie could have an alias to use?
     //could have an inventory class, which holds gold, silver, copper. and items, like health pots, etc..
 }
@@ -157,6 +156,7 @@ while player.hitpoints > 0 || opp.get_hp() > 0 {  //obviously stop the loop if e
 }
 
 fn main() {
+    //render second screen which displays information about the character
     let mut user_input = String::new();
     println!("Enter Name of your Character..");
 
