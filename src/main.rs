@@ -181,7 +181,6 @@ fn main() {
     }
 
     let mut player = Character::new_player_character(character_name, personal_weapon);
-    player.restore_hitpoints();
     player.print_values();
     //new character setup finished.
 
@@ -217,7 +216,7 @@ fn town_gate(player: Character){
     if answer == 1{
         let mut rng = rand::thread_rng();
         let mut guard_roll = rng.gen_range(0, 10); //ignore stats for the moment just roll pure RNG
-        let mut player_roll = rng.gen_range(0, 10);
+        let mut player_roll = rng.gen_range(0, 1);
 
             if guard_roll >= player_roll{  //could have genders.
                 println!("{} {}", "(Fail)".bright_red() ,"You think im a fool boy? Do you think you look like a traveling merchant?");
@@ -232,7 +231,7 @@ fn town_gate(player: Character){
                 if answer == 1{
                     //roll against guard, this time with advantage as you've been caught once.
                     guard_roll = rng.gen_range(0, 10); 
-                    player_roll = rng.gen_range(0, 8);
+                    player_roll = rng.gen_range(0, 1);    //Changed RNG roll
 
                     //lost another roll.
                     if guard_roll >= player_roll{
@@ -246,7 +245,8 @@ fn town_gate(player: Character){
                          //from here we will be changing scenes so regardless we will be moving from this function.
 
                          if answer == 1{
-                            //run away new scene.
+                            //run away, new scene.
+                            run_away_scene(player);
                          }else if answer == 2{
                             //jail, new scene didn't kill the guard.
                             jail_scene(player, false);
@@ -382,8 +382,31 @@ fn jail_scene(mut player: Character, did_player_kill_guard: bool){
 
 //option 2 from front gate, choose to run away
 fn run_away_scene(mut player:Character){
+    let mut answer = 0;
     //need to loop around to the prision scene kinda.
-    println!("Hello World");
+    println!("You see the guard making his way down to you, you run.");
+    println!("Not being from this area you have no idea where to go, or to hide. You hear footsteps running behind which you assume is the guard.");
+    println!("After running what feels about is 300 metres you see some options of where to go");
+
+    println!("(1). Surrender to the guard");
+    println!("(2). Stop, and look around for possible areas to hide.");
+    println!("(3). Keep running\n");
+    answer = question_answer_function(3);
+
+    if answer == 1{
+        //by surrendering you are going to be arrested. Didn't kill the guard. taken to the jail scene
+        println!("You see no possible way to escape as you turn around you see the guard along with some more of the town guards.");
+        println!("You surrender to the guard, as he catches up to you he roughly wraps cuffs around your wirsts and leads you back to town.\n");
+        jail_scene(player, false);
+    }else if answer == 2{
+        //Stop, for a second look around at possible situations.
+        println!("As you stop and look around you see some possible escape routes");
+        println!("(1). to your left you see an large old farm shed, you may be able to hide in there..");
+        println!("(2). You look to your right and the town wall is there, but this far out its not as well guarded. Perhaps you could scale it.");
+        println!("(3). You like neither of these options so choose to keep running..");
+    //no answer for option 3 as this will be the continue running option which 2 can also be.
+    }
+    //running...
 }
 
 

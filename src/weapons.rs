@@ -15,7 +15,7 @@ pub struct MeleeWeapon{
     pub dice_to_roll: i32, //this is the amount of times to roll the roll_max eg 2d8 will roll a 8 sided die 2 times.
     pub roll_max: i32,  //this is the max its damage can roll. eg 1d6 will roll between a 0-6
     damage_type: String,
-    cost: i32,  //monatary value of the item.
+    cost: i32,  //monatary value of the item. in gold pieces.
 }
 
 impl MeleeWeaponTraits for MeleeWeapon{ 
