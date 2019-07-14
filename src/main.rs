@@ -403,7 +403,7 @@ fn run_away_scene(mut player:Character){
         println!("As you stop and look around you see some possible escape routes");
         println!("(1). to your left you see an large old farm shed, you may be able to hide in there..");
         println!("(2). You look to your right and the town wall is there, but this far out its not as well guarded. Perhaps you could scale it.");
-        println!("(3). You like neither of these options so choose to keep running..");
+        println!("(3). You like neither of these options so choose to keep running..\n");
         answer = question_answer_function(3);
         if answer == 1{
             //hide in the shed.
@@ -411,11 +411,23 @@ fn run_away_scene(mut player:Character){
             //scale the wall.
         }
     //no answer for option 3 as this will be the continue running option which 2 can also be.
+     //running...
     }
     println!("You keep running, you appear to be widening the gap between you and the guards...");
     println!("As you round a large bend you hear some people talking in hushed tones, at this point you are far away from the town..");
-    println!("You stop running, and choose to");
-    //running...
+    println!("You stop running you can't go back the way you came as the gurads are still coming, you choose to\n");
+        println!("(1). Approach the group, slowly..");
+        println!("(2). Yell out to the group.");
+        println!("(3). Just run to them hoping they can help you.\n");
+        answer = question_answer_function(3);
+
+        if answer == 1{
+
+        }else if answer == 2{
+
+        }else if answer == 3{
+
+        }
 }
 
 
