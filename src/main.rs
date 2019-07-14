@@ -404,8 +404,17 @@ fn run_away_scene(mut player:Character){
         println!("(1). to your left you see an large old farm shed, you may be able to hide in there..");
         println!("(2). You look to your right and the town wall is there, but this far out its not as well guarded. Perhaps you could scale it.");
         println!("(3). You like neither of these options so choose to keep running..");
+        answer = question_answer_function(3);
+        if answer == 1{
+            //hide in the shed.
+        }else if answer == 2{
+            //scale the wall.
+        }
     //no answer for option 3 as this will be the continue running option which 2 can also be.
     }
+    println!("You keep running, you appear to be widening the gap between you and the guards...");
+    println!("As you round a large bend you hear some people talking in hushed tones, at this point you are far away from the town..");
+    println!("You stop running, and choose to");
     //running...
 }
 
