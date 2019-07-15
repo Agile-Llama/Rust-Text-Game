@@ -421,14 +421,28 @@ fn run_away_scene(mut player:Character){
         println!("(3). Just run to them hoping they can help you.\n");
         answer = question_answer_function(3);
 
+            //option 1 is appraoch the group slowly
         if answer == 1{
-
+            println!("You try catch your breathe, and start to creep towards the group.");
+            println!("As you apporach you can make out about 12 men, all of whom are sorrounding a small banner ");
+            println!("As you creep closer to the group one of them looks around. The noise from the guards has appeared to stir them..");
+            println!("As the man looks around at the noise from the guard he notices you creeping closer..\n");
+        //option 2 is yell out to the group
         }else if answer == 2{
+            println!("You appraoch the group, then yell out to them.");
+            println!("They quickly notice you yell and stop what they were doing, they look around at you.\n");
 
+            //option 3 is just run to them, hope for help.
         }else if answer == 3{
-
+             println!("In your panic you decide to run up to the group, not thinking they could be bad.");
+             println!("You burst through the bushes, stopping right next to the group.");
+             println!("as this happens you hear the guards voices getting closer.\n");
         }
+
 }
+
+
+
 
 
 
